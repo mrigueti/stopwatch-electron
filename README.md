@@ -1,4 +1,7 @@
-# Electron Stopwatch
+# A Simple Electron Stopwatch
+![image](https://github.com/user-attachments/assets/5064edc8-3e93-43f8-b5e1-6aa2b5972db3)
+
+
 
 A simple stopwatch built with Electron.
 
