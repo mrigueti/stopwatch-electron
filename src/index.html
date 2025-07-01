@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline'"
+    />
+    <title>Cronômetro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @font-face {
+        font-family: 'Minecraft';
+        src: url('fonts/Minecraft.ttf') format('truetype');
+      }
+      body {
+        font-family: "Minecraft", sans-serif;
+      }
+      .timer-font {
+        font-family: "Minecraft", monospace;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white select-none">
+    <div class="flex flex-col items-center justify-center h-screen">
+      <div class="text-6xl font-bold mb-8 timer-font" id="time-display">
+        00:00:00<span class="text-3xl text-gray-400">.000</span>
+      </div>
+
+      <div class="flex space-x-4">
+        <button
+          id="startBtn"
+          class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105"
+        >
+          Iniciar
+        </button>
+        <button
+          id="pauseBtn"
+          class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105"
+          disabled
+        >
+          Pausar
+        </button>
+        <button
+          id="resetBtn"
+          class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-transform transform hover:scale-105"
+          disabled
+        >
+          Reiniciar
+        </button>
+      </div>
+    </div>
+
+    <script>
+      const timeDisplay = document.getElementById("time-display");
+      const startBtn = document.getElementById("startBtn");
+      const pauseBtn = document.getElementById("pauseBtn");
+      const resetBtn = document.getElementById("resetBtn");
+
+      let startTime;
+      let updatedTime;
+      let difference;
+      let tInterval;
+      let savedTime = 0;
+      let running = false;
+      let paused = false;
+
+      function pad(num) {
+        return num < 10 ? "0" + num : num;
+      }
+
+      function formatTime(time) {
+        const milliseconds = Math.floor(time % 1000);
+        const seconds = Math.floor((time / 1000) % 60);
+        const minutes = Math.floor((time / (1000 * 60)) % 60);
+        const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
+
+        return `${pad(hours)}:${pad(minutes)}:${pad(
+          seconds
+        )}<span class="text-3xl text-gray-400">.${pad(milliseconds)
+          .toString()
+          .padStart(3, "0")}</span>`;
+      }
+
+      function startTimer() {
+        if (!running) {
+          startTime = new Date().getTime();
+          tInterval = setInterval(getShowTime, 1);
+
+          running = true;
+          paused = false;
+
+          startBtn.disabled = true;
+          pauseBtn.disabled = false;
+          resetBtn.disabled = false;
+        }
+      }
+
+      function pauseTimer() {
+        if (running) {
+          clearInterval(tInterval);
+          savedTime = difference;
+          running = false;
+          paused = true;
+
+          startBtn.disabled = false;
+          startBtn.innerText = "Retomar";
+          pauseBtn.disabled = true;
+        }
+      }
+
+      function resetTimer() {
+        clearInterval(tInterval);
+        savedTime = 0;
+        difference = 0;
+        running = false;
+        paused = false;
+        timeDisplay.innerHTML =
+          '00:00:00<span class="text-3xl text-gray-400">.000</span>';
+
+        startBtn.disabled = false;
+        startBtn.innerText = "Iniciar";
+        pauseBtn.disabled = true;
+        resetBtn.disabled = true;
+      }
+
+      function getShowTime() {
+        updatedTime = new Date().getTime();
+        if (savedTime) {
+          difference = updatedTime - startTime + savedTime;
+        } else {
+          difference = updatedTime - startTime;
+        }
+
+        timeDisplay.innerHTML = formatTime(difference);
+      }
+
+      startBtn.addEventListener("click", startTimer);
+      pauseBtn.addEventListener("click", pauseTimer);
+      resetBtn.addEventListener("click", resetTimer);
+    </script>
+  </body>
+</html>
