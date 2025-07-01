@@ -13,5 +13,25 @@
   "type": "commonjs",
   "devDependencies": {
     "electron": "^37.1.0"
+  },
+  "build": {
+    "appId": "com.exemplo.electron-stopwatch",
+    "productName": "Simple Stopwatch",
+    "files": [
+      "src/main.js",
+      "src/index.html"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "build/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "build/icon.png"
+    }
   }
 }
