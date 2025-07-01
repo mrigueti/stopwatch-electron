@@ -24,6 +24,10 @@ A simple stopwatch built with Electron.
     ```bash
     npm start
     ```
+4.  **Build the application to executable:**
+    ```bash
+    npm run build
+    ```
 
 ## Technologies used
 
