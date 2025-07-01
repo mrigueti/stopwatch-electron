@@ -5,14 +5,16 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "electron-builder"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "electron": "^37.1.0"
+    "electron": "^31.1.0",
+    "electron-builder": "^24.13.3"
   },
   "build": {
     "appId": "com.exemplo.electron-stopwatch",
@@ -23,7 +25,7 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "build/icon.ico"
+      "icon": "build/icon.png"
     },
     "linux": {
       "target": "AppImage",
